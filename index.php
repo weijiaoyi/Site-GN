@@ -57,26 +57,22 @@ $DOMAIN = GetUrlToDomain($_SERVER['HTTP_HOST']);
 $arr = explode('.',$_SERVER['HTTP_HOST']);
 
 if($arr[0] == 'dn' || $arr[0] == 'sj'){
-    header("HTTP/1.1 302 Moved Permanently");
     header("Location:" . (onHttps() ? 'https://' : 'http://') . $DOMAIN);
     exit;
 }
 
-$inlet = array_filter(explode("\n", trim(@file_get_contents('inlet.txt'),"\n")));
+$inlet = array_filter(explode("\r\n", trim(@file_get_contents('inlet.txt'),"\r\n")));
 if(empty($inlet)){
-    header("HTTP/1.1 301 Moved Permanently");
     header("Location:https://www.baidu.com");
     exit;
 }
 shuffle($inlet);
 if(!in_array($DOMAIN,$inlet)){
-    header("HTTP/1.1 301 Moved Permanently");
-    //header("Location:" . (onHttps() ? 'https://' : 'http://') . $inlet[0]);
     header("Location:https://www.baidu.com");
     exit;
 }
 
-$project = explode("\n", trim(str_replace($DOMAIN,'', @file_get_contents('project.txt')),"\n"));
+$project = explode("\r\n", trim(str_replace($DOMAIN,'', @file_get_contents('project.txt')),"\r\n"));
 if(empty($project)){
     die;
 }
