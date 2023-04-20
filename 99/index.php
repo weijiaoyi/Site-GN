@@ -95,10 +95,17 @@ if($_SERVER['HTTP_HOST'] != 'admin.'.$DOMAIN){
     }else{
         //指定来源域名
         $referer = getBaseDomain($HTTP_REFERER);
-        $project = explode("\r\n", trim(str_replace($DOMAIN,'', @file_get_contents('../project.txt')),"\r\n"));
-        if(!in_array($referer['domain'],$project)){
+        $inlet = explode("\r\n", trim(@file_get_contents('../inlet.txt'),"\r\n"));
+        if(!in_array($referer['domain'],$inlet)){
             header("Location:https://www.baidu.com");
             exit;
+        }else{
+            $referer = getBaseDomain($HTTP_REFERER);
+            $project = explode("\r\n", trim(@file_get_contents('../project.txt'),"\r\n"));
+            if(!in_array($referer['domain'],$project)){
+                header("Location:https://www.baidu.com");
+                exit;
+            }
         }
     }
 
