@@ -16,6 +16,7 @@ function isMobile()
 }
 function onHttps() 
 {
+    return true;
     if (defined('HTTPS') && HTTPS) return true;
     if (!isset($_SERVER)) return false;
     if (!isset($_SERVER['HTTPS'])) return false;
@@ -69,8 +70,9 @@ if(empty($inlet)){
 }
 shuffle($inlet);
 if(!in_array($DOMAIN,$inlet)){
-    header("HTTP/1.1 302 Moved Permanently");
-    header("Location:" . (onHttps() ? 'https://' : 'http://') . $inlet[0]);
+    header("HTTP/1.1 301 Moved Permanently");
+    //header("Location:" . (onHttps() ? 'https://' : 'http://') . $inlet[0]);
+    header("Location:https://www.baidu.com");
     exit;
 }
 
