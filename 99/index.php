@@ -88,28 +88,32 @@ header("Content-type: text/html; charset=utf-8");
 $HTTP_REFERER = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "";
 $DOMAIN = GetUrlToDomain($_SERVER['HTTP_HOST']);
 if($_SERVER['HTTP_HOST'] != 'admin.'.$DOMAIN){
+    $arr = explode('.',$_SERVER['HTTP_HOST']);
+    
     if($HTTP_REFERER == "" ) 
     {
         header("Location:" . (onHttps() ? 'https://' : 'http://') . $DOMAIN);
         exit;
     }else{
-        //指定来源域名
-        $referer = getBaseDomain($HTTP_REFERER);
-        $inlet = explode("\r\n", trim(@file_get_contents('../inlet.txt'),"\r\n"));
-        if(!in_array($referer['domain'],$inlet)){
-            header("Location:https://www.baidu.com");
-            exit;
-        }else{
+        if(count($arr) < 3 || $arr[0] == 'www')
+        {
+            //指定来源域名
             $referer = getBaseDomain($HTTP_REFERER);
+            $inlet = explode("\r\n", trim(@file_get_contents('../inlet.txt'),"\r\n"));
+            if(!in_array($referer['domain'],$inlet)){
+                header("Location:https://www.baidu.com");
+                exit;
+            }
+        }else{
             $project = explode("\r\n", trim(@file_get_contents('../project.txt'),"\r\n"));
-            if(!in_array($referer['domain'],$project)){
+            if(!in_array($DOMAIN,$project)){
                 header("Location:https://www.baidu.com");
                 exit;
             }
         }
     }
 
-    $arr = explode('.',$_SERVER['HTTP_HOST']);
+    
 
     if(count($arr) < 3 || $arr[0] == 'www')
     {
