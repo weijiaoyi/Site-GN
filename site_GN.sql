@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2023-04-20 21:07:49
+Date: 2023-04-21 14:16:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -396,7 +396,7 @@ CREATE TABLE `wp_balance` (
   `realprice` decimal(16,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '实际到账',
   `remarks` varchar(30) DEFAULT NULL COMMENT '备注',
   `uid` int(11) DEFAULT NULL COMMENT '用户id',
-  `isverified` int(11) DEFAULT NULL COMMENT ' 0 待审核 1通过  2是拒绝 3是审核中',
+  `isverified` int(11) NOT NULL DEFAULT '0' COMMENT ' 0 待审核 1通过  2是拒绝 3是审核中',
   `cltime` int(20) DEFAULT NULL COMMENT '审核时间',
   `bankid` int(8) DEFAULT NULL COMMENT '银行卡id,对应wp_bankinfo',
   `bpbalance` varchar(28) DEFAULT NULL COMMENT '充值/提现后的余额',
