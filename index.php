@@ -72,9 +72,14 @@ if(!in_array($DOMAIN,$inlet)){
     exit;
 }
 
-$project = explode("\r\n", trim(str_replace($DOMAIN,'', @file_get_contents('project.txt')),"\r\n"));
+$project = explode("\r\n", trim(@file_get_contents('project.txt'),"\r\n"));
 if(empty($project)){
     die;
+}
+foreach ($project as $key=>$value) {
+    if($value == $DOMAIN){
+        unset($project[$key]);
+    }
 }
 shuffle($project);
 $DOMAIN = $project[0];
