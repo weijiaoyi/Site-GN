@@ -254,7 +254,7 @@ class Index extends Base
             'bptime' => time(),
             'btime' => $btime ? strtotime($btime) : time(),
             'remarks' => $payment['pay_name'],
-            'isverified' => null,
+            'isverified' => 0,
             'reg_par' => 0,
             'bpbalance' => $bpbalance,
             'truename' => $truename,
