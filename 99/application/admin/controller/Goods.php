@@ -19,12 +19,14 @@ class Goods extends Base
 		}
         $pro =  Db::name('productdata')->where('isdelete',0)->order('sort')->select();
         foreach ($pro as $k=>$val) {
+            $info = Db::name('productinfo')->where('pid',$val['pid'])->find();
             $pro[$k]['proorder'] = $val['sort'];
-            $pro[$k]['ptitle'] =$val['Name'];
+            $pro[$k]['ptitle'] =$info['ptitle'];
             $pro[$k]['pcname'] ="外汇";
-            $pro[$k]['point_low'] =1;
-            $pro[$k]['point_top'] =1;
-            $pro[$k]['isopen'] =$val['is_deal'];
+            $pro[$k]['rands'] =$info['rands'];
+            $pro[$k]['point_low'] =$info['point_low'];
+            $pro[$k]['point_top'] =$info['point_top'];
+            $pro[$k]['isopen'] =$info['isopen'];
           }
         $this->assign('proinfo',$pro);
         return $this->fetch();
@@ -94,7 +96,7 @@ class Goods extends Base
 				$editid = Db::name('productinfo')->update($data);
                 if($editid){
                     db('productdata')->where('pid',$data['pid'])->update(['Name'=>$data['ptitle']]);
-                    $this->error('修改成功',url('/admin/goods/proadd',array('pid'=>$data['pid'])),1,1);
+                    $this->success('修改成功',url('/admin/goods/proadd',array('pid'=>$data['pid'])),1,1);
                 }else{
                     $this->error('修改失败',url('/admin/goods/proadd',array('pid'=>$data['pid'])),1,1);
                 }
@@ -103,9 +105,9 @@ class Goods extends Base
                 if($addid){
                     $p_data['pid'] = $addid;
                     Db::name('productdata')->insert($p_data);
-                    return WPreturn('添加成功',1);
+                    $this->success('添加成功',$_SERVER['HTTP_REFERER'],1,1);
                 }else{
-                    return WPreturn('添加失败',-1);
+                    $this->error('添加失败',$_SERVER['HTTP_REFERER'],1,1);
                 }
 			}
 		}else{
